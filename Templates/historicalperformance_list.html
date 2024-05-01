@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Historical Performance List</title>
+</head>
+<body>
+    <h1>Historical Performance List</h1>
+    <ul>
+        {% for performance in performances %}
+            <li>{{ performance.vendor }} - {{ performance.date }} - {{ performance.on_time_delivery_rate }}</li>
+            <!-- Add more fields as needed -->
+            <a href="{% url 'historicalperformance-update' performance.pk %}">Edit</a>
+            <form method="post" action="{% url 'historicalperformance-delete' performance.pk %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'historicalperformance-create' %}">Create New Performance</a>
+</body>
+</html>

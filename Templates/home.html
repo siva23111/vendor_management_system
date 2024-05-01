@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to Vendor Management System</h1>
+    
+    <h2>Vendors</h2>
+    <ul>
+        {% for vendor in vendors %}
+            <li>{{ vendor.name }} - {{ vendor.contact_details }} - {{ vendor.address }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Purchase Orders</h2>
+    <ul>
+        {% for purchase_order in purchase_orders %}
+            <li>
+                {{ purchase_order.po_number }} - {{ purchase_order.vendor }} - {{ purchase_order.order_date }}
+                <form method="post" action="{% url 'purchaseorder-delete' purchase_order.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Historical Performance</h2>
+        <ul>
+        {% for perfomance in perfomances %}
+            <li>{{ perfomance.vendor }} - {{ perfomance.date }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for performance in performances %}
+            <li>{{ performance.vendor }} - {{ performance.date }} - {{ performance.on_time_delivery_rate }}</li>
+            <!-- Add more fields as needed -->
+            <a href="{% url 'historicalperformance-update' performance.pk %}">Edit</a>
+            <form method="post" action="{% url 'historicalperformance-delete' performance.pk %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'historicalperformance-create' %}">Create New Performance</a>
+
+    <h2>Create a Purchase Order</h2>
+    <a href="{% url 'purchaseorder-create' %}">Create Purchase Order</a>
+
+    <p>This is the home page of the Vendor Management System. You can perform various operations related to vendor management here.</p>
+    <ul>
+        <li><a href="{% url 'vendor-list' %}">View Vendors</a></li>
+        <li><a href="{% url 'vendor-create' %}">Create Vendor</a></li>
+    </ul>
+</body>
+</html>
